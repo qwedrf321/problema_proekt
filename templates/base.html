@@ -7,61 +7,58 @@
     <title>Система управління завданнями</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-<style>
-    .body-bg {
-        background-color: #17a2b8;
-        color: white;
-    }
-    .navbar-custom {
-        background-color: #0d1b2a;
-    }
-    .btn-custom {
-        border: 1px solid #17a2b8;
-        color: #17a2b8;
-        background: transparent;
-    }
-    .btn-custom:hover {
-        background-color: #17a2b8;
-        color: white;
-    }
-    .btn-custom-primary {
-        background-color: #17a2b8;
-        color: white;
-        border: none;
-    }
-    .btn-custom-primary:hover {
-        background-color: #138496;
-        color: white;
-    }
-    .badge-primary-custom {
-        background-color: #17a2b8;
-        color: white;
-    }
-    .badge-secondary-custom {
-        background-color: #0d1b2a;
-        color: white;
-    }
-    .card,
-    .list-group-item {
-        background-color: #ffffff10;
-        color: white;
-    }
-</style>
+    <style>
+        .body-bg {
+            background-color: #17a2b8;
+            color: white;
+        }
+        .navbar-custom {
+            background-color: #0d1b2a;
+        }
+        .btn-custom {
+            border: 1px solid #17a2b8;
+            color: #17a2b8;
+            background: transparent;
+        }
+        .btn-custom:hover {
+            background-color: #17a2b8;
+            color: white;
+        }
+        .btn-custom-primary {
+            background-color: #17a2b8;
+            color: white;
+            border: none;
+        }
+        .btn-custom-primary:hover {
+            background-color: #138496;
+            color: white;
+        }
+        .badge-primary-custom {
+            background-color: #17a2b8;
+            color: white;
+        }
+        .badge-secondary-custom {
+            background-color: #0d1b2a;
+            color: white;
+        }
+        .card,
+        .list-group-item {
+            background-color: #ffffff10;
+            color: white;
+        }
+    </style>
 </head>
 
 <body class="p-3 mb-2 body-bg">
     <nav class="navbar navbar-expand-lg navbar-custom mb-4">
-        <a class="btn btn-custom mr-2" href="{% url 'tasks: task_list' %}">
-            головна
-        </a>
-        <a class="btn btn-custom mr-2" href="{% url 'tasks: register' %}">
-            реєстрація
-        </a>
-        <form action="{% url 'tasks: logout' %}" method="post">
+        <a class="btn btn-custom mr-2" href="{% url 'tasks:task-list' %}">Головна</a>
+        <a class="btn btn-custom mr-2" href="{% url 'tasks:register' %}">Реєстрація</a>
+        <form action="{% url 'tasks:logout' %}" method="post" class="d-inline">
             {% csrf_token %}
-            <button type="submit" class="btn btn-custom mr-2">вийти</button>
+            <button type="submit" class="btn btn-custom mr-2">Вийти</button>
         </form>
     </nav>
+
     {% block content %}
     {% endblock %}
 </body>
