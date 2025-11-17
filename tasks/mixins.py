@@ -1,12 +1,9 @@
 from django.core.exceptions import PermissionDenied
 
-class UserIsOwnerMixin:
-    """
-    Mixin to ensure that the logged-in user is the owner of the object.
-    """
 
+class UserIsOwnerMixin(object):
     def dispatch(self, request, *args, **kwargs):
-        obj = self.get_object()
-        if obj.owner != request.user:
-            raise PermissionDenied("You do not have permission to access this object.")
+        instance = self.get_object()
+        if instance.creator != self.request.user:
+            raise PermissionDenied
         return super().dispatch(request, *args, **kwargs)
