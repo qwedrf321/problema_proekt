@@ -1,0 +1,11 @@
+{ % extands 'base.html' % }
+{ % block content % }
+    <div class = 'container mt-3'>
+        <h2>{View.title}</h2>
+        <form method = 'post'>
+            { % csrf_token % }
+            {{ form.as_p }}
+            <button type = 'submit' class = 'btn btn-success'>Зберегти</button>
+        </form>
+    </div>
+{ % endblock % }

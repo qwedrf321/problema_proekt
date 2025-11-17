@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load custom_tags %}
+<div class="container mt-3">
+    <h2>{{ task.title }}</h2>
+    <p>{{ task.description }}</p>
+    <p>Статус: <span class="badge badge-primary-custom">{{ task.status }}</span></p>
+    <p>Пріоритет: <span class="badge badge-secondary-custom">{{ task.priority }}</span></p>
+
+    <a href="{% url 'tasks: task_update' task.id %}" class="btn btn-warning">Редагувати завдання</a>
+    <a href="{% url 'tasks: task_delete' task.id %}" class="btn btn-danger">Видалити завдання</a>
+
+    <div class="comments mt-4">
+        <h3>Коментарі</h3>
+        {% for comment in task.comments.all %}
+        <div class="card mb-2">
+            <div class="card-body">
+                <p>{{ comment.content }}</p>
+                {% if comment.media %}
+                <div class="comment-media">
+                    {% if comment.media.url|endswith:".jpg" or comment.media.url|endswith:".png" or comment.media.url|endswith:".jpeg" %}
+                    <img src="{{ comment.media.url }}" alt="Зображення коментаря" style="max-width: 1000px;">
+                    {% elif comment.media.url|endswith:".mp4" %}
+                    <video width="320" height="240" controls>
+                        <source src="{{ comment.media.url }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    {% else %}
+                    <a href="{{ comment.media.url }}">Завантажити файл</a>
+                    {% endif %}
+                </div>
+                {% endif %}
+                <small>Author: {{ comment.author.username }}</small>
+            </div>
+        </div>
+        {% empty %}
+        <p>Коментарі відсутні</p>
+        {% endfor %}
+    </div>
+
+    <div class="add-comment mt-4">
+        <h3>Додати коментар</h3>
+        <form method="post" enctype="multipart/form-data" action="{% url 'tasks: task_detail' task.id %}">
+            {% csrf_token %}
+            {{ comment_form.as_p }}
+            <button type="submit" class="btn btn-primary">Додати коментар</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
