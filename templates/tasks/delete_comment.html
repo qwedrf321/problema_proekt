@@ -1,12 +1,35 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container mt-3">
-    <h2>Ви впевнені, що хочете видалити цей коментар?</h2>
-    <form action="" method="post">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-danger">Видалити</button>
-        <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-secondary">Відміна</a>
-    </form>
+<div class="container">
+
+    <div class="mx-auto" style="max-width: 500px;">
+
+        <div class="card shadow-lg border-0 rounded-4 bg-light bg-opacity-75 mt-4">
+            <div class="card-body p-4">
+
+                <h2 class="fw-bold text-danger mb-3">Видалення коментаря</h2>
+
+                <p class="mb-4">
+                    Ви впевнені, що хочете видалити цей коментар?
+                </p>
+
+                <form action="" method="post" class="d-flex gap-3">
+                    {% csrf_token %}
+
+                    <button type="submit" class="btn btn-danger px-4">
+                        🗑 Видалити
+                    </button>
+
+                    <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-secondary px-4">
+                        ↩ Відміна
+                    </a>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+
 </div>
 {% endblock %}

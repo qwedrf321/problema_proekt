@@ -25,7 +25,7 @@ class Task(models.Model):
         return self.title
     
     def get_absolute_url(self):
-        return reverse('tasks: task_detail', kwargs={'pk': self.pk})
+        return reverse('tasks:task_detail', kwargs={'pk': self.pk})
     
 class Comment(models.Model):
     task = models.ForeignKey(Task, related_name='comments', on_delete=models.CASCADE)

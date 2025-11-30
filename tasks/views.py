@@ -82,8 +82,7 @@ class TaskUpdateView(LoginRequiredMixin, UserIsOwnerMixin, UpdateView):
     template_name = "tasks/task_update_form.html"
     success_url = reverse_lazy("tasks:task-list")
 
-
-class TaskDeleteView(LoginRequiredMixin, UserIsOwnerMixin, DeleteView):
+class TaskDeleteView(LoginRequiredMixin, DeleteView):
     model = models.Task
     success_url = reverse_lazy("tasks:task-list")
     template_name = "tasks/task_delete_confirmation.html"
@@ -91,17 +90,22 @@ class TaskDeleteView(LoginRequiredMixin, UserIsOwnerMixin, DeleteView):
 
 class CommentUpdateView(LoginRequiredMixin, UpdateView):
     model = models.Comment
-    fields = ['content']
+    fields = ['content', 'media']
     template_name = 'tasks/edit_comment.html'
 
     def form_valid(self, form):
         comment = self.get_object()
+
+        # Проверка прав
         if comment.author != self.request.user:
             raise PermissionDenied("Ви не можете редагувати цей коментар.")
-        return super().form_valid(form)
+
+        # Сохраняем и возвращаем на задачу
+        form.save()
+        return redirect("tasks:task-detail", pk=comment.task.pk)
 
     def get_success_url(self):
-        return reverse_lazy('tasks:task_detail', kwargs={'pk': self.object.task.pk})
+        return reverse_lazy("tasks:task-detail", kwargs={"pk": self.object.task.pk})
 
 
 class CommentDeleteView(LoginRequiredMixin, DeleteView):
@@ -109,23 +113,28 @@ class CommentDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'tasks/delete_comment.html'
 
     def get_queryset(self):
-        queryset = super().get_queryset()
-        return queryset.filter(author=self.request.user)
+        # Ограничиваем удаление только комментариями текущего пользователя
+        return super().get_queryset().filter(author=self.request.user)
 
     def get_success_url(self):
-        return reverse_lazy('tasks:task_detail', kwargs={'pk': self.object.task.pk})
+        return reverse_lazy("tasks:task-detail", kwargs={"pk": self.object.task.pk})
 
 
 class CommentLikeToggle(LoginRequiredMixin, View):
-    def post(self, request, *args, **kwargs):
-        comment = get_object_or_404(models.Comment, pk=self.kwargs.get('pk'))
+
+    def post(self, request, pk):
+        comment = get_object_or_404(models.Comment, pk=pk)
+
+        # Проверяем — лайк есть или нет
         like_qs = models.Like.objects.filter(comment=comment, user=request.user)
+
         if like_qs.exists():
             like_qs.delete()
         else:
             models.Like.objects.create(comment=comment, user=request.user)
-        return HttpResponseRedirect(comment.get_absolute_url())
 
+        # Возвращаем на страницу задачи
+        return redirect("tasks:task-detail", pk=comment.task.pk)
 
 class CustomLoginView(LoginView):
     template_name = "tasks/login.html"

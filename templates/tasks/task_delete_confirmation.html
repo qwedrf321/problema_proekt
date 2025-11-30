@@ -2,13 +2,34 @@
 
 {% block content %}
 <div class="container">
-    <h2>Видалення завдання</h2>
-    <p>Ви впевнені, що хочете видалити завдання "{{ object.title }}"?</p>
 
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-danger">Так, видалити</button>
-        <a href="{% url 'tasks:task-list' %}" class="btn btn-secondary">Ні, повернутися до списку завдань</a>
-    </form>
+    <div class="mx-auto" style="max-width: 600px;">
+
+        <div class="card shadow-lg border-0 rounded-4 bg-light bg-opacity-75">
+            <div class="card-body p-4">
+
+                <h2 class="fw-bold text-danger mb-3">Видалення завдання</h2>
+
+                <p class="mb-4">
+                    Ви дійсно хочете видалити завдання:
+                    <span class="fw-semibold">"{{ object.title }}"</span>?
+                </p>
+
+                <form method="post" class="d-flex gap-3">
+                    {% csrf_token %}
+
+                    <button type="submit" class="btn btn-danger px-4">
+                        🗑 Так, видалити
+                    </button>
+
+                    <a href="{% url 'tasks:task-list' %}" class="btn btn-secondary px-4">
+                        ↩ Повернутися
+                    </a>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
 </div>
 {% endblock %}

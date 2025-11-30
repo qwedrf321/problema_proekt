@@ -26,8 +26,8 @@ class TaskFilterForm(forms.Form):
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        fields = ['content', 'media']
-    
-        widgets = {
-            'media': forms.FileInput()
+        fields = ["content", "media"]
+        labels = {
+            "content": "",     # Скрываем надпись
+            "media": "Прикріпити файл",
         }

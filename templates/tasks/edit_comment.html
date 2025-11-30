@@ -1,12 +1,52 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container mt-3">
-    <h2>Редагувати коментар</h2>
-    <form action="" method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Оновити</button>
-    </form>
+
+<style>
+    .edit-card {
+        background: #fff;
+        border-radius: 14px;
+        padding: 25px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.12);
+        transition: .3s;
+    }
+    .edit-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 28px rgba(0,0,0,0.18);
+    }
+    .edit-card h2 {
+        font-weight: 700;
+    }
+</style>
+
+<div class="mx-auto" style="max-width: 700px;">
+
+    <div class="edit-card">
+
+        <h2 class="mb-3">✏ Редагувати коментар</h2>
+
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                {{ form.content.label_tag }}
+                {{ form.content }}
+            </div>
+
+            <div class="mb-3">
+                {{ form.media.label_tag }}
+                {{ form.media }}
+            </div>
+
+            <button type="submit" class="btn btn-primary px-4">Оновити</button>
+
+            <a href="javascript:history.back()" class="btn btn-outline-secondary ms-2">
+                Назад
+            </a>
+        </form>
+
+    </div>
+
 </div>
+
 {% endblock %}

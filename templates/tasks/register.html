@@ -1,10 +1,38 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Register</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Register</button>
-</form>
+<div class="container">
+
+    <div class="mx-auto" style="max-width: 480px;">
+
+        <div class="card shadow-lg border-0 rounded-4 bg-light bg-opacity-75 mt-3">
+            <div class="card-body p-4">
+
+                <h2 class="fw-bold text-center mb-4">Реєстрація</h2>
+
+                <form method="post">
+                    {% csrf_token %}
+
+                    <!-- Рендер форми Bootstrap-стилем -->
+                    {% for field in form %}
+                        <div class="mb-3">
+                            <label class="form-label">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.errors %}
+                                <small class="text-danger">{{ field.errors.0 }}</small>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+
+                    <button type="submit" class="btn btn-primary w-100 py-2 mt-2">
+                        Створити акаунт
+                    </button>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
 {% endblock %}

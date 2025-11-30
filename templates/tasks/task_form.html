@@ -1,12 +1,28 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container mt-3">
-    <h2>{{ view.title }}</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-success">Зберегти</button>
-    </form>
+<div class="mx-auto" style="max-width: 650px;">
+
+    <h2 class="text-center mb-4 fw-bold">{{ view.title }}</h2>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+
+            <form method="post" class="mt-2">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    {{ form.as_p }}
+                </div>
+
+                <button type="submit" class="btn btn-success w-100 py-2">
+                    Зберегти
+                </button>
+
+            </form>
+
+        </div>
+    </div>
+
 </div>
 {% endblock %}
